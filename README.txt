@@ -1,15 +1,15 @@
 Introduction
 ============
 
-This is the code for the `smtp2gs`_ script, which allows the external
+This is the code for the `mbox2gs`_ script, which allows the external
 mail-transfer agent to add the message to `GroupServer`_.  The
 `configuration file`_ contains some information that allows the script to
 authenticate with the site.
 
-``smtp2gs``
+``mbox2gs``
 ===========
 
-Usually a SMTP server (such as Postfix) will call ``smtp2gs`` to add an
+Usually a SMTP server (such as Postfix) will call ``mbox2gs`` to add an
 email message to a GroupServer group. It is defined as an entry point
 [#entryPoint]_ to this module.
 
@@ -18,7 +18,7 @@ Usage
 
 ::
 
-   smtp2gs [-h] [-m MAXSIZE] [-l LISTID] [-f FILE] [-c CONFIG] [-i INSTANCE] url
+   mbox2gs [-h] [-m MAXSIZE] [-l LISTID] [-f FILE] [-c CONFIG] [-i INSTANCE] url
 
 Positional Arguments
 ~~~~~~~~~~~~~~~~~~~~
@@ -58,7 +58,7 @@ Returns
 -------
 
 The script returns ``0`` on success, an non-zero on an error. In the case
-of an error, ``smtp2gs`` follows the convention specified in
+of an error, ``mbox2gs`` follows the convention specified in
 ``/usr/include/sysexits.h``. In addition the error message that is written
 to ``stderr`` starts with the enhanced mail system status code
 [#rfc3463]_. These include `transient errors`_ and `permanent errors`_.
@@ -76,14 +76,14 @@ Postfix or the `configuration file`_) are marked as *transient* (with a
  4.3.5   Error with the configuration file.   Correct the configuration file.
  4.4.4   Error connecting to URL.             Check that the server is running, 
                                               or alter the URL that is used to 
-                                              call ``smtp2gs``.
+                                              call ``mbox2gs``.
  4.4.5   The system is too busy.              Wait.
  4.5.0   Could not decode the data            *Usually* this is caused by an
          returned by the server.              invalid token in the 
                                               `configuration file`_.
                                               Fix the token in the file.
  4.5.2   No host in the URL.                  Alter the URL that is used in 
-                                              the call to ``smtp2gs`` so it has
+                                              the call to ``mbox2gs`` so it has
                                               a host-name.
 ======  ===================================  ==================================
 
@@ -111,41 +111,41 @@ Examples
 Adding a post to a group in the general case, where the email is read of
 standard input::
 
-  smtp2gs http://url.of.your.site
+  mbox2gs http://url.of.your.site
 
 Over-riding the ``x-original-to`` header. This allows posts to an old email
 address to be sent to a new group.::
 
-  smtp2gs --list newGroupId http://url.of.your.site
+  mbox2gs --list newGroupId http://url.of.your.site
 
 Testing, by reading a file from ``/tmp``::
 
-  smtp2gs --file /tmp/test.mbox http://url.of.your.site
+  mbox2gs --file /tmp/test.mbox http://url.of.your.site
 
 Setting the maximum size of messages posted to a group to 1MiB::
 
-  smtp2gs --max-size 1 http://url.of.your.site
+  mbox2gs --max-size 1 http://url.of.your.site
 
 Using the token for a specific GroupServer instance called ``production``::
 
-  smtp2gs --instance production http://url.of.your.site
+  mbox2gs --instance production http://url.of.your.site
 
 The Code
 --------
 
-The ``smtp2gs`` script is provided by the module
-``gs.group.messages.add.smtp2gs.script``. The ``main`` function takes the
+The ``mbox2gs`` script is provided by the module
+``gs.group.messages.add.mbox2gs.script``. The ``main`` function takes the
 name of the default configuration file a single argument, which is normally
-supplied by ``buildout`` when it generates the ``smtp2gs`` script from the
+supplied by ``buildout`` when it generates the ``mbox2gs`` script from the
 entry point.
 
 The script parses the command-line arguments, and calls two further functions:
 
-``gs.group.messages.add.smtp2gs.servercomms.get_group_info_from_address``:
+``gs.group.messages.add.mbox2gs.servercomms.get_group_info_from_address``:
   This calls the page ``/gs-group-messages-add-group-exists.html`` to check
   if the group exists, and to get some information about the group.
 
-``gs.group.messages.add.smtp2gs.servercomms.add_post``:
+``gs.group.messages.add.mbox2gs.servercomms.add_post``:
   This calls the page ``/gs-group-messages-add-email.html`` to actually add
   the post.
 
@@ -157,7 +157,7 @@ section `Configuration File`_ below).
 Configuration File
 ==================
 
-The configuration for the ``smtp2gs`` script is handled by the
+The configuration for the ``mbox2gs`` script is handled by the
 ``gs.config`` module [#config]_. It is entirely concerned with token
 authentication [#auth]_. To authenticate script needs to pass a token to
 the web pages that are used to add a post [#add]_. The pages compare the

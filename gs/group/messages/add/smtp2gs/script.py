@@ -44,19 +44,18 @@ def add_post_to_groupserver(progName, url, listId, emailMessage, token):
 
     email = message_from_string(emailMessage)
     xOriginalTo = email['x-original-to']
-    if xOriginalTo is None:
+    if xOriginalTo is None and listId is None:
         m = '5.1.3 No "x-original-to" header in the email message.\n'
         sys.stderr.write(m)
         sys.exit(exit_vals['no_x_original_to'])
-
-    if is_an_xverp_bounce(xOriginalTo):
-        handle_bounce(hostname, xOriginalTo, token)
-        m = '2.1.5 The XVERP bounce was processed.\n'
-        sys.stderr.write(m)
-        sys.exit(exit_vals['success'])
     elif listId:  # We were explicitly passed the group id
         groupToSendTo = listId
     else:  # Get the information about the group
+        if is_an_xverp_bounce(xOriginalTo):
+            handle_bounce(hostname, xOriginalTo, token)
+            m = '2.1.5 The XVERP bounce was processed.\n'
+            sys.stderr.write(m)
+            sys.exit(exit_vals['success'])
         groupInfo = get_group_info_from_address(hostname, xOriginalTo, token)
         groupToSendTo = groupInfo['groupId']
 

@@ -3,13 +3,13 @@ from lockfile import FileLock, LockTimeout
 from os.path import getmtime, isfile
 from time import time
 
-LOCK_NAME        = '/tmp/gs-group-messages-add-smtp2gs'
+LOCK_NAME        = '/tmp/gs-group-messages-add-mbox2gs'
 LOCK_FILE        = LOCK_NAME + '.lock'
 MAX_LOCK_TIMEOUT =   5 # seconds
 BREAK_LOCK_AGE   = 300 # seconds == 5 minutes
 
 def get_lock():
-    '''Get the lock for smtp2gs, breaking the lock if it has been held for too 
+    '''Get the lock for mbox2gs, breaking the lock if it has been held for too 
 long.
 
 Arguments:
@@ -51,7 +51,7 @@ def create_file(fileName):
     if not isfile(fileName):
         f = file(fileName, 'w')
         m = u'This file is part of the locking mechanism used by the '\
-            u'GroupServer smtp2gs\nscript.'
+            u'GroupServer mbox2gs\nscript.'
         f.write(m.encode('utf-8'))
         f.close()
 

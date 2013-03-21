@@ -16,9 +16,9 @@ if sys.version_info > (2, 6):
 else:
     requires = core + ['argparse']
 
-setup(name='gs.group.messages.add.smtp2gs',
+setup(name='gs.group.messages.add.mbox2gs',
     version=version,
-    description="The console script for adding a message to GroupServer.",
+    description="The console script for processing and adding messages from mbox file to GroupServer.",
     long_description=open("README.txt").read() + "\n" +
                       open(os.path.join("docs", "HISTORY.txt")).read(),
     classifiers=[
@@ -32,7 +32,7 @@ setup(name='gs.group.messages.add.smtp2gs',
       "Programming Language :: Python",
       "Topic :: Software Development :: Libraries :: Python Modules",
       ],
-    keywords='groupserver message post topic images',
+    keywords='groupserver message post topic images mbox',
     author='Michael JasonSmith',
     author_email='mpj17@onlinegroups.net',
     url='http://groupserver.org/',
@@ -45,7 +45,7 @@ setup(name='gs.group.messages.add.smtp2gs',
     install_requires=requires,
     entry_points={
         'console_scripts': [
-            'smtp2gs = gs.group.messages.add.smtp2gs.script:main',
+            'mbox2gs = gs.group.messages.add.mbox2gs.script:main',
             ],
         # --=mpj17=-- Entry points are the work of the devil. Some time
         # you, me and Mr Soldering Iron are going to have a little chat
