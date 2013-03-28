@@ -5,6 +5,8 @@ from email import message_from_string
 from socket import gaierror
 import sys
 from urlparse import urlparse
+import mailbox
+from email.utils import parseaddr
 # GroupServer modules
 from gs.config.config import Config, ConfigError
 # Local modules
@@ -23,10 +25,9 @@ lock = None
 
 
 def add_post_to_groupserver(progName, url, listId, emailMessage, token):
-    # WARNING: multiple exit points below thanks to "sys.exit" calls. Dijkstra
-    # will hate me for this.
+    # WARNING: multiple exit points below thanks to "sys.exit" calls.
 
-    # First, get the lock or die!!
+    # get the lock or die
     global weLocked, lock
     lock = get_lock()
     if not lock.i_am_locking():
@@ -96,18 +97,7 @@ def get_token_from_config(configSet, configFileName):
     return retval
 
 
-def main(configFileName):
-    args = get_args(configFileName)
-    try:
-        token = get_token_from_config(args.instance, args.config)
-    except ConfigError, ce:
-        m = '4.3.5: Error with the configuration file "%s":\n%s\n' %\
-            (args.config, ce.message)
-        sys.stderr.write(m)
-        sys.exit(exit_vals['config_error'])
-
-    emailMessage = args.file.read()
-    args.file.close()
+def process_message(args, emailMessage, token):
     l = len(emailMessage)
     if l == 0:
         m = '5.3.0 The file containing the email was empty.\n'
@@ -137,8 +127,18 @@ def main(configFileName):
             'while processing the\nmessage. Check the token?\n'
         sys.stderr.write(m)
         sys.exit(exit_vals['json_decode_error'])
-    else:
-        sys.exit(exit_vals['success'])
 
-if __name__ == '__main__':
-    main('etc/gsconfig.ini')
+
+def main(configFileName):
+    args = get_args(configFileName)
+    try:
+        token = get_token_from_config(args.instance, args.config)
+    except ConfigError, ce:
+        m = '4.3.5: Error with the configuration file "%s":\n%s\n' %\
+            (args.config, ce.message)
+        sys.stderr.write(m)
+        sys.exit(exit_vals['config_error'])
+    mbox = mailbox.mbox(args.file)
+    for emailMessage in mbox:
+        process_message(args, str(emailMessage), token)
+    sys.exit(exit_vals['success'])

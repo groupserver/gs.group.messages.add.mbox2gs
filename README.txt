@@ -1,17 +1,81 @@
 Introduction
 ============
 
-This is the code for the `mbox2gs`_ script, which allows the external
-mail-transfer agent to add the message to `GroupServer`_.  The
-`configuration file`_ contains some information that allows the script to
-authenticate with the site.
+This is the code for the `mbox2gs`_ script, which allows to import email messages
+from mbox archives to `GroupServer`_.
+
+It can be used for migration of `Mailman` mailing-list archives ie. to migrate old
+mailing-lists from `Mailman` to `Groupserver`_.
+
+This document is intended for advanced users only. DO NOT attempt to use this unless 
+you are really sure you know what you are doing! You have been warned.
+
+
+Before You Start
+================
+
+The following describes all steps before ``mbox2gs`` can be called.
+
+
+1. (OPTIONAL) How-to Disable SMTP (sending emails) in your `GroupServer`_ instance.
+
+   You can disable SMTP by:
+
+   a) Modifying /path/to/your/instance/parts/instance/etc/gsconfig.ini
+
+      - In `gsconfig.ini` you have sections `[config-default]` which has set `smtp = on` by default. Set `smtp = off`.
+      - Stop and start again your instance so the configuration change takes effect.
+      - Test sending of email via your `GroupServer` instance. You should not get any.
+
+   b) Re-configure your `GroupServer`_ instance to use Python's native SMTP daemon running in debug mode:
+      - SMPT port set to 2525 in `config.cfg` 
+      - Run `buildout -N`
+      - Run `sudo python -m smtpd -n -c DebuggingServer localhost:2525`
+      - Test sending of email via your `GroupServer` instance. You should not get any and you should see the email
+        appearing in the DebuggingServer that you are running.
+
+IMPORTANT: You may want to disable SMTP in your `GroupServer` instance while you are testing, or even migrating
+archivesd from old Mailman mailin-lists, because every email you import would be send to your mailing list members.
+Which is something you may not want to do.
+
+
+2. Prepare Mailman archives for migration.
+
+   Long story short, things are not in ideal shape in any `Mailman`_ archive out there, because:
+
+   - Email addresses are usually obfuscated (eg. *some.email at example.com*, *some.email*).
+   - Typical `Mailman`_ archive (usually gzipped) is not a proper mbox file.
+
+   The following Python script deals with the issues and helps you to convert your `Mailman`_ archives to mbox format.
+
+   https://gist.github.com/wcdolphin/1728592
+
+
+3. Create a new `GroupServer`_ group to which you intend to import mbox archive(s) in to.
+
+   Example: http://example.org/groups/my-group/
+
+
+4. Get a list of all email addresses from your `Mailman`_ mailing-list, or extract the list from mbox archives. 
+
+   Note, that everyone on the list will get an email about the fact that you added them to the group.
+
+
+5. Load all email addresses to the group via `admin_join_add_csv.html` page.
+
+   Example: http://example.org/groups/my-group/admin_join_add_csv.html
+
+6. All prepared. You are now ready to migrate your mbox archive(s) using ``mbox2gs``.
+
 
 ``mbox2gs``
 ===========
 
-Usually a SMTP server (such as Postfix) will call ``mbox2gs`` to add an
-email message to a GroupServer group. It is defined as an entry point
-[#entryPoint]_ to this module.
+Usually an advanced user of Groupserver calls ``mbox2gs`` when required to add 
+email messages from mbox archive to a GroupServer group. 
+
+``mbox2gs`` is defined as an entry point [#entryPoint]_ to this module.
+
 
 Usage
 -----
@@ -26,6 +90,15 @@ Positional Arguments
 ``url``:
   The URL for the GroupServer site.
 
+``-l LISTID``, ``--list LISTID``:
+  The list to send the message to. By default it is extracted from the 
+  ``x-original-to`` header. If your mbox archive contains ``x-original-to`` 
+  then your group/list id MUST be the same as ``x-original-to``. 
+
+``-f FILE``, ``--file FILE``:
+  The name of the file that contains the mbox archive. Only one archive
+  can be imported at the time.
+
 Optional Arguments
 ~~~~~~~~~~~~~~~~~~
 
@@ -35,14 +108,6 @@ Optional Arguments
 ``-m MAXSIZE``, ``--max-size MAXSIZE``:
   The maximum size of the post that will be accepted, in mebibytes (default 
   200MiB).
-
-``-l LISTID``, ``--list LISTID``:
-  The list to send the message to. By default it is extracted from the 
-  ``x-original-to`` header.
-
-``-f FILE``, ``--file FILE``:
-  The name of the file that contains the message. If omitted (or "-") 
-  standard-input will be read.
 
 ``-c CONFIG``, ``--config CONFIG``:
   The name of the GroupServer `configuration file`_ (default
@@ -108,27 +173,10 @@ The five *permanent* errors are listed below.
 Examples
 --------
 
-Adding a post to a group in the general case, where the email is read of
-standard input::
+Importing a mbox archive to a group in the general case::
 
-  mbox2gs http://url.of.your.site
+  mbox2gs --list newGroupId --file /tmp/test.mbox http://url.of.your.site
 
-Over-riding the ``x-original-to`` header. This allows posts to an old email
-address to be sent to a new group.::
-
-  mbox2gs --list newGroupId http://url.of.your.site
-
-Testing, by reading a file from ``/tmp``::
-
-  mbox2gs --file /tmp/test.mbox http://url.of.your.site
-
-Setting the maximum size of messages posted to a group to 1MiB::
-
-  mbox2gs --max-size 1 http://url.of.your.site
-
-Using the token for a specific GroupServer instance called ``production``::
-
-  mbox2gs --instance production http://url.of.your.site
 
 The Code
 --------
@@ -141,11 +189,11 @@ entry point.
 
 The script parses the command-line arguments, and calls two further functions:
 
-``gs.group.messages.add.mbox2gs.servercomms.get_group_info_from_address``:
+``gs.group.messages.add.smtp2gs.servercomms.get_group_info_from_address``:
   This calls the page ``/gs-group-messages-add-group-exists.html`` to check
   if the group exists, and to get some information about the group.
 
-``gs.group.messages.add.mbox2gs.servercomms.add_post``:
+``gs.group.messages.add.smtp2gs.servercomms.add_post``:
   This calls the page ``/gs-group-messages-add-email.html`` to actually add
   the post.
 
@@ -216,5 +264,6 @@ URLs) that are supported by the same database::
 .. [#config] See ``gs.config`` 
             <https://source.iopen.net/groupserver/gs.config/summary>
 .. _GroupServer: http://groupserver.org/
+.. _Mailman: http://www.gnu.org/software/mailman/
 
 ..  LocalWords:  CONFIG config

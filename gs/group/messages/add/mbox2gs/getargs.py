@@ -16,7 +16,7 @@ def get_args(configFileName):
                    help='The list to send the message to. By default it is '
                        'extracted from the x-original-to header.')
     p.add_argument('-f', '--file', dest='file', default='-',
-                   type=FileType('r'),
+                   type=str,
                    help='The name of the file that contains the message. If '
                        'omitted (or "%(default)s") standard-input will be '
                        'read.')
