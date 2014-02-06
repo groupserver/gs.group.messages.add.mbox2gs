@@ -1,4 +1,18 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+##############################################################################
+#
+# Copyright © 2013, 2014 OnlineGroups.net and Contributors.
+# All Rights Reserved.
+#
+# This software is subject to the provisions of the Zope Public License,
+# Version 2.1 (ZPL).  A copy of the ZPL should accompany this distribution.
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIED
+# WARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
+# FOR A PARTICULAR PURPOSE.
+#
+##############################################################################
+from __future__ import unicode_literals, absolute_import
 # Standard modules
 import atexit
 from email import message_from_string
@@ -6,15 +20,14 @@ from socket import gaierror
 import sys
 from urlparse import urlparse
 import mailbox
-from email.utils import parseaddr
 # GroupServer modules
 from gs.config.config import Config, ConfigError
 # Local modules
-from errorvals import exit_vals
-from getargs import get_args
-from locker import get_lock
-from servercomms import get_group_info_from_address, NotOk, add_post
-from xverp import is_an_xverp_bounce, handle_bounce
+from .errorvals import exit_vals
+from .getargs import get_args
+from .locker import get_lock
+from .servercomms import get_group_info_from_address, NotOk, add_post
+from .xverp import is_an_xverp_bounce, handle_bounce
 
 weLocked = False
 lock = None
