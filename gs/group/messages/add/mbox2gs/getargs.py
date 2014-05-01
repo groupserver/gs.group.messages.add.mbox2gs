@@ -17,7 +17,7 @@ from argparse import ArgumentParser, FileType
 
 
 def get_args(configFileName):
-    p = ArgumentParser(description='Add an mbox file to GroupServer.',
+    p = ArgumentParser(description='Import an mbox file into GroupServer.',
                        epilog='Usually %(prog)s is called to import an .'
                            'mbox file for an entire group, with the -l flag.')
     p.add_argument('url', metavar='url',
@@ -39,5 +39,7 @@ def get_args(configFileName):
                    type=str,
                    help='The identifier of the GroupServer instance '
                        'configuration to use (default "%(default)s").')
+    p.add_argument('-v', '--verbose', dest='verbose', action='store_true',
+                   help='Turn on verbose output. (Normally quiet.)')
     retval = p.parse_args()
     return retval

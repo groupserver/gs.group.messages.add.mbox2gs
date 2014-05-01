@@ -67,6 +67,9 @@ def main(configFileName):
         sys.stderr.write(m)
         sys.exit(exit_vals['config_error'])
     mbox = mailbox.mbox(args.file.name)
-    for emailMessage in mbox:
-        process_message(args, args.url, args.listId, str(emailMessage), token)
+    for i, emailMessage in enumerate(mbox):
+        if args.verbose:
+            m = 'Processing message {0} of {1}\n'.format(i + 1, len(mbox))
+            sys.stdout.write(m)
+        process_message(args.url, args.listId, str(emailMessage), token)
     sys.exit(exit_vals['success'])
