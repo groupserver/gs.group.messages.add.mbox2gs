@@ -14,6 +14,7 @@
 ##############################################################################
 from __future__ import unicode_literals, absolute_import
 # Standard modules
+from argparse import ArgumentParser, FileType
 import mailbox
 from socket import gaierror
 import sys
@@ -27,8 +28,35 @@ from gs.group.messages.add.smtp2gs.errorvals import exit_vals
 from gs.group.messages.add.smtp2gs.servercomms import (NotOk, )
 from gs.group.messages.add.smtp2gs.script import (get_token_from_config,
     add_post_to_groupserver)
-# Local modules
-from .getargs import get_args
+
+
+def get_args(configFileName):
+    p = ArgumentParser(description='Import an mbox file into GroupServer.',
+                       epilog='Usually %(prog)s is called to import an .'
+                           'mbox file for an entire group, with the -l flag.')
+    p.add_argument('url', metavar='url',
+                   help='The URL for the GroupServer site.')
+    p.add_argument('-l', '--list', dest='listId', default=None,
+                   help='The list to send the message to. By default it is '
+                       'extracted from the x-original-to header.')
+    p.add_argument('-f', '--file', dest='file', default='-',
+                   type=FileType('r'),
+                   help='The name of the mbox file. If omitted (or '
+                       '"%(default)s") standard-input will be read.')
+    p.add_argument('-c', '--config', dest='config', default=configFileName,
+                   type=str,
+                   help='The name of the GroupServer configuration file '
+                       '(default "%(default)s") that contains the token that '
+                       'will be used to authenticate the script when it tries '
+                       'to add each message to the site.')
+    p.add_argument('-i', '--instance', dest='instance', default='default',
+                   type=str,
+                   help='The identifier of the GroupServer instance '
+                       'configuration to use (default "%(default)s").')
+    p.add_argument('-v', '--verbose', dest='verbose', action='store_true',
+                   help='Turn on verbose output. (Normally quiet.)')
+    retval = p.parse_args()
+    return retval
 
 
 def process_message(uri, listId, emailMessage, token):
