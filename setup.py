@@ -33,8 +33,8 @@ setup(name='gs.group.messages.add.mbox2gs',
     version=version,
     description='The console script for processing and adding messages from '
         'an mbox file to a GroupServer group.',
-    long_description=open("README.txt").read() + "\n" +
-                      open(os.path.join("docs", "HISTORY.txt")).read(),
+    long_description=open("README.rst").read() + "\n" +
+                      open(os.path.join("docs", "HISTORY.rst")).read(),
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
