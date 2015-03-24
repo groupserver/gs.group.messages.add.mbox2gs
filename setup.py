@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-##############################################################################
+############################################################################
 #
-# Copyright © 2013, 2014 OnlineGroups.net and Contributors.
+# Copyright © 2013, 2014, 2015 OnlineGroups.net and Contributors.
 # All Rights Reserved.
 #
 # This software is subject to the provisions of the Zope Public License,
@@ -11,7 +11,8 @@
 # WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
 # FOR A PARTICULAR PURPOSE.
 #
-##############################################################################
+############################################################################
+import codecs
 import os
 import sys
 from setuptools import setup, find_packages
@@ -29,12 +30,18 @@ if sys.version_info > (2, 6):
 else:
     requires = core + ['argparse']
 
-setup(name='gs.group.messages.add.mbox2gs',
+with codecs.open('README.rst', encoding='utf-8') as f:
+    long_description = f.read()
+with codecs.open(os.path.join("docs", "HISTORY.rst"),
+                 encoding='utf-8') as f:
+    long_description += '\n' + f.read()
+
+setup(
+    name='gs.group.messages.add.mbox2gs',
     version=version,
-    description='The console script for processing and adding messages from '
-        'an mbox file to a GroupServer group.',
-    long_description=open("README.rst").read() + "\n" +
-                      open(os.path.join("docs", "HISTORY.rst")).read(),
+    description='The console script for processing and adding messages '
+                'from an mbox file to a GroupServer group.',
+    long_description=long_description,
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
@@ -53,13 +60,13 @@ setup(name='gs.group.messages.add.mbox2gs',
         'Topic :: Communications :: Email',
         'Topic :: Communications :: Email :: Mailing List Servers',
         'Topic :: Communications :: Email :: Mail Transport Agents',
-      ],
+    ],
     keywords='groupserver, message, mbox, mailman',
     author='Marek Kuziel',
     author_email='marek@onlinegroups.net',
     maintainer='Michael JasonSmith',
     maintainer_email='mpj17@onlinegroups.net',
-    url='https://source.iopen.net/groupserver/gs.group.messages.add.mbox2gs',
+    url='https://github.com/groupserver/gs.group.messages.add.mbox2gs',
     license='ZPL 2.1',
     packages=find_packages(exclude=['ez_setup']),
     namespace_packages=['gs', 'gs.group', 'gs.group.messages',
@@ -70,9 +77,8 @@ setup(name='gs.group.messages.add.mbox2gs',
     entry_points={
         'console_scripts': [
             'mbox2gs = gs.group.messages.add.mbox2gs.script:main',
-            ],
+        ],
         # --=mpj17=-- Entry points are the work of the devil. Some time
         # you, me and Mr Soldering Iron are going to have a little chat
         # about how to do things better.
-        },
-)
+        }, )
