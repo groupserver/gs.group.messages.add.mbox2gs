@@ -16,8 +16,7 @@ from __future__ import absolute_import, unicode_literals
 from mock import (MagicMock, patch)
 import os.path
 from unittest import TestCase
-from gs.group.messages.add.mbox2gs.script import (
-    main, process_message, get_args)
+from gs.group.messages.add.mbox2gs.script import (main, process_message)
 import gs.group.messages.add.mbox2gs.script as gsscript
 
 
@@ -62,3 +61,13 @@ class TestScript(TestCase):
             main('fake-name.cfg')
 
         self.assertEqual(2, m_add_post.call_count)
+
+    @patch.object(gsscript, 'add_post_to_groupserver')
+    def test_empty_message(self, m_add_post):
+        'Test that we do the right thing with an empty message'
+        with self.assertRaises(SystemExit) as se:
+            process_message('http://groups.example.com', 'list', '',
+                            self.tokenValue, self.prefix)
+
+        self.assertNotEqual(0, se.exception.code)
+        self.assertEqual(0, m_add_post.call_count)
