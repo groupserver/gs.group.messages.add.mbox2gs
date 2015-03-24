@@ -62,7 +62,7 @@ def get_args(configFileName):
     return retval
 
 
-def process_message(uri, listId, emailMessage, token):
+def process_message(uri, listId, emailMessage, token, relayAddressPrefix):
     l = len(emailMessage)
     if l == 0:
         m = '5.3.0 The email message was empty.\n'
@@ -71,7 +71,7 @@ def process_message(uri, listId, emailMessage, token):
 
     try:
         add_post_to_groupserver(sys.argv[0], uri, listId, emailMessage,
-                                token)
+                                token, relayAddressPrefix)
     except gaierror as g:
         m = '4.4.4 Error connecting to the server while processing '\
             'the message:\n%s\n' % (g)

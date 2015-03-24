@@ -74,6 +74,8 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=requires,
+    tests_require=['mock', ],
+    test_suite="gs.group.messages.add.mbox2gs.tests.test_all",
     entry_points={
         'console_scripts': [
             'mbox2gs = gs.group.messages.add.mbox2gs.script:main',
