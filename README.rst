@@ -7,11 +7,11 @@ Import an ``mbox`` archive into GroupServer
 
 :Authors: `Marek Kuziel`_; `Michael JasonSmith`_;
 :Contact: Michael JasonSmith <mpj17@onlinegroups.net>
-:Date: 2014-05-05
+:Date: 2015-03-24
 :Organization: `GroupServer.org`_
-:Copyright: This document is licensed under a
-  `Creative Commons Attribution-Share Alike 4.0 International License`_
-  by `OnlineGroups.Net`_.
+:Copyright: This document is licensed under a `Creative Commons
+  Attribution-Share Alike 4.0 International License`_ by
+  `OnlineGroups.Net`_.
 
 Introduction
 ============
@@ -26,6 +26,8 @@ Resources
 
 - Code repository:
   https://github.com/groupserver/gs.group.messages.add.mbox2gs
+- Documentation
+  http://groupserver.readthedocs.org/projects/gsgroupmessagesaddmbox2gs/
 - Questions and comments to
   http://groupserver.org/groups/development
 - Report bugs at https://redmine.iopen.net/projects/groupserver
@@ -37,8 +39,6 @@ Resources
 .. _Michael JasonSmith: http://groupserver.org/p/mpj17
 .. _Creative Commons Attribution-Share Alike 4.0 International License:
     http://creativecommons.org/licenses/by-sa/4.0/
-
-.. _GroupServer: http://groupserver.org/
 .. _Mailman: http://www.gnu.org/software/mailman/
 
 ..  LocalWords:  CONFIG config SMTP DebuggingServer buildout ini
