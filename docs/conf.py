@@ -235,7 +235,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'gsgroupmessagesaddmbox2gs', u'gs.group.messages.add.mbox2gs Documentation',
+    ('script', 'mbox2gs', 
+     u'Add all the messages in an mbox file to a GroupServer group',
      [u'GroupServer.org'], 1)
 ]
 

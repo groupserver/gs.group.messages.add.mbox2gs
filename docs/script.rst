@@ -1,26 +1,29 @@
-The ``mbox2gs`` script
-======================
-
-Usually an advanced user of Groupserver calls ``mbox2gs`` when
-required to add email messages from mbox archive to a GroupServer
-group. ``mbox2gs`` is defined as an entry point [#entryPoint]_ to
-this module.
+:program:`mbox2gs`
+==================
 
 .. program:: mbox2gs
 
-::
+Synopsis
+--------
 
-   mbox2gs [-h] [-v] [-l LISTID] [-f FILE] [-c CONFIG] [-i INSTANCE] url
+   :program:`mbox2gs` [:option:`-h`] [:option:`-v`] [:option:`-l` <LISTID>] [:option:`-f` <FILE>] [:option:`-c` <CONFIG>] [:option:`-i` <INSTANCE>] :option:`url`
+
+Description
+-----------
+
+Usually, an advanced user of Groupserver calls :program:`mbox2gs` when
+required to add email messages from mbox archive to a GroupServer
+group.
 
 Positional Arguments
-~~~~~~~~~~~~~~~~~~~~
+--------------------
 
 .. option:: url
 
   The URL for the GroupServer site.
 
 Optional Arguments
-~~~~~~~~~~~~~~~~~~
+------------------
 
 .. option:: -h, --help
 
@@ -28,12 +31,13 @@ Optional Arguments
 
 .. option:: -v, --verbose
 
-  Turn on verbose output. (Normally quiet.)
+  Turn on verbose output (default is quiet: no news is good
+  news).
 
 .. option:: -l <LISTID>, --list <LISTID>
 
   The list to send the message to. By default it is extracted
-  from the ``x-original-to`` header.
+  from the :mailheader:`x-original-to` header.
 
 .. option:: -f <FILE>, --file <FILE>
 
@@ -44,30 +48,30 @@ Optional Arguments
 .. option:: -c <CONFIG>, --config <CONFIG>
 
   The name of the GroupServer configuration file (default
-  ``$INSTANCE_HOME/etc/gsconfig.ini``) that contains the token
-  that will be used to authenticate the script when it tries to
-  add the email to the site. (See :doc:`config` for more
+  :file:`{INSTANCE_HOME}/etc/gsconfig.ini`) that contains the
+  token that will be used to authenticate the script when it
+  tries to add the email to the site. (See :doc:`config` for more
   information.)
 
 .. option:: -i <INSTANCE>, --instance <INSTANCE>
 
   The identifier of the GroupServer instance configuration to use
-  (default "default").
+  (default ``default``).
 
 Returns
 -------
 
 The script returns ``0`` on success, or a non-zero on an
-error. In the case of an error, ``mbox2gs`` follows the
-convention specified in ``/usr/include/sysexits.h``. In addition
-the error message that is written to ``stderr`` starts with the
-enhanced mail system status code [#rfc3463]_. See smtp2gs_ for
-more information.
+error. In the case of an error, :program:`mbox2gs` follows the
+convention specified in :file:`/usr/include/sysexits.h`. In
+addition the error message that is written to ``stderr`` starts
+with the enhanced mail system status code [#rfc3463]_. See
+smtp2gs_ for more information.
 
 Examples
 --------
 
-Import the mbox archive stored in ``/tmp/test.mbox`` into the
+Import the mbox archive stored in :file:`/tmp/test.mbox` into the
 group ``my_group`` that is on the site ``groups.example.com``,
 and produce verbose output:
 
@@ -78,8 +82,5 @@ and produce verbose output:
 .. _smtp2gs:
    https://github.com/groupserver/gs.group.messages.add.smtp2gs
 
-.. [#entryPoint] See `Feature 3539
-                 <https://redmine.iopen.net/issues/3539>`_
-
-.. [#rfc3463] `RFC 3463: Enhanced Mail System Status Codes 
+.. [#rfc3463] `RFC 3463: Enhanced Mail System Status Codes
              <http://tools.ietf.org/html/rfc3463>`_
