@@ -65,7 +65,7 @@ The script returns ``0`` on success, or a non-zero on an
 error. In the case of an error, :program:`mbox2gs` follows the
 convention specified in :file:`/usr/include/sysexits.h`. In
 addition the error message that is written to ``stderr`` starts
-with the enhanced mail system status code [#rfc3463]_. See
+with the enhanced mail system status code (:rfc:`3463`). See
 smtp2gs_ for more information.
 
 Examples
@@ -81,6 +81,3 @@ and produce verbose output:
 
 .. _smtp2gs:
    https://github.com/groupserver/gs.group.messages.add.smtp2gs
-
-.. [#rfc3463] `RFC 3463: Enhanced Mail System Status Codes
-             <http://tools.ietf.org/html/rfc3463>`_

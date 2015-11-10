@@ -31,7 +31,7 @@ section Configuration File below).
             <https://github.com/groupserver/gs.group.messages.add.base>
 
 .. [#form] See ``gs.form`` 
-            <https://github.com/groupserver/gs.form/summary>
+            <https://github.com/groupserver/gs.form>
 
 .. [#auth] See ``gs.auth.token`` 
-            <https://github.com/groupserver/gs.auth.token/summary>
+            <https://github.com/groupserver/gs.auth.token>

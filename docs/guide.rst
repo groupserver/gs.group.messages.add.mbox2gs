@@ -65,7 +65,7 @@ what you are doing! You have been warned.
 3. Create a new GroupServer group to which you intend to import
    mbox archive(s) in to.
 
-   Example: <http://example.org/groups/my-group/>
+   Example: ``http://example.com/groups/my-group/``
 
 4. Get a list of all email addresses from your Mailman
    mailing-list, or extract the list from mbox archives.
@@ -73,7 +73,7 @@ what you are doing! You have been warned.
 5. Load all email addresses to the group via
    ``admin_join_add_csv.html`` page.
 
-   Example: http://example.org/groups/my-group/admin_join_add_csv.html
+   Example: ``http://example.com/groups/my-group/admin_join_add_csv.html``
 
    :Note: Unless you disable SMTP everyone on the list will get
           an email about the fact that you added them to the

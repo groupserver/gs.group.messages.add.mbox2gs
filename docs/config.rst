@@ -56,10 +56,10 @@ URLs) that are supported by the same database:
   token = theValueOfTheDefaultToken
 
 .. [#config] See ``gs.config`` 
-            <https://github.com/groupserver/gs.config/summary>
+            <https://github.com/groupserver/gs.config>
 
 .. [#auth] See ``gs.auth.token`` 
-            <https://github.com/groupserver/gs.auth.token/summary>
+            <https://github.com/groupserver/gs.auth.token>
 
 .. [#add] See ``gs.group.messages.add.base`` 
             <https://github.com/groupserver/gs.group.messages.add.base>
