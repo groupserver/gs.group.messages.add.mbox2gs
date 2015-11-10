@@ -1,6 +1,14 @@
 Changelog
 =========
 
+2.1.2 (2015-11-10)
+------------------
+
+* Fixing the link to the ``mailman2mbox`` script, thanks to
+  `Alexander Köplinger`_
+
+.. _Alexander Köplinger: https://github.com/akoeplinger
+
 2.1.1 (2015-05-12)
 ------------------
 
