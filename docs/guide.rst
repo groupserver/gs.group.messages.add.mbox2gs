@@ -1,19 +1,21 @@
 How to import ``mbox`` files into GroupServer
 =============================================
 
-The following describes all steps before ``mbox2gs`` can be
-called. This document is intended for advanced users only. **Do
-not** attempt to use this unless you are really sure you know
-what you are doing! You have been warned.
+.. highlight:: console
+
+The following describes all steps before :command:`mbox2gs` can
+be called. This document is intended for advanced users
+only. **Only** attempt to use this if you are really sure you
+know what you are doing! You have been warned.
 
 
 1. **(Optional)** Disable SMTP (sending emails) in your
    GroupServer instance. You can disable SMTP in one of two ways.
 
-   i. Modify ``parts/instance/etc/gsconfig.ini`` in your
-      GroupServer installation
+   i. Modify :file:`etc/gsconfig.ini` in your GroupServer
+      installation
 
-      - In ``gsconfig.ini`` you have sections
+      - In :file:`etc/gsconfig.ini` you have sections
         ``[config-default]``, which has set ``smtp = on`` by
         default. Set ``smtp = off``.
 
@@ -26,9 +28,9 @@ what you are doing! You have been warned.
    ii. Re-configure your GroupServer instance to use Python's
        native SMTP daemon running in debug mode:
 
-       - SMPT port set to 2525 in ``config.cfg``
+       - SMPT port set to 2525 in :file:`config.cfg`
 
-       - Run Buildlout::
+       - Run :program:`Buildlout`::
 
           $ buildout -N
 
@@ -42,42 +44,42 @@ what you are doing! You have been warned.
 
          :Important: You may want to disable SMTP in your
                      GroupServer instance while you are testing,
-                     or even migrating archivesd from old Mailman
-                     mailin-lists, because every email you import
-                     would be send to your mailing list members.
-                     Which is something you may not want to do.
+                     or even migrating archivesd from old
+                     :program:`Mailman` mailing-lists, because
+                     every email you import would be send to your
+                     mailing list members.  Which is something
+                     you may wish to avoid.
 
-2. Prepare Mailman archives for migration.
+2. Prepare :program:`Mailman` archives for migration.
 
-   Long story short, things are not in ideal shape in any Mailman
-   archive out there, because:
+   Long story short, things are not in ideal shape in any
+   :program:`Mailman` archive out there, because:
 
    - Email addresses are usually obfuscated (eg. *some.email at
      example.com*, *some.email*).
 
-   - A typical Mailman archive (usually gzipped) is not a proper
-     mbox file.
+   - A typical :program:`Mailman` archive (usually gzipped) is
+     often an invalid mbox file.
 
    The ``mailman2mbox`` Python script deals with the issues and
-   helps you to convert your Mailman archives to mbox format
-   <https://gist.github.com/corydolphin/1728592>.
+   helps you to convert your :program:`Mailman` archives to mbox
+   format <https://gist.github.com/corydolphin/1728592>.
 
 3. Create a new GroupServer group to which you intend to import
    mbox archive(s) in to.
 
-   Example: ``http://example.com/groups/my-group/``
+   Example: ``http://groups.example.com/groups/my-group/``
 
 4. Get a list of all email addresses from your Mailman
    mailing-list, or extract the list from mbox archives.
 
-5. Load all email addresses to the group via
-   ``admin_join_add_csv.html`` page.
-
-   Example: ``http://example.com/groups/my-group/admin_join_add_csv.html``
+5. Load all email addresses to the group via the :guilabel:`Add
+   members in bulk` page, linked from the :guilabel:`Admin`
+   section of the group.
 
    :Note: Unless you disable SMTP everyone on the list will get
           an email about the fact that you added them to the
           group.
 
 6. All prepared. You are now ready to migrate your ``mbox``
-   archive(s) using ``mbox2gs``.
+   archive(s) using :command:`mbox2gs` (see :doc:`script`).
