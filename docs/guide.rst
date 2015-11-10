@@ -60,7 +60,7 @@ what you are doing! You have been warned.
 
    The ``mailman2mbox`` Python script deals with the issues and
    helps you to convert your Mailman archives to mbox format
-   <https://gist.github.com/wcdolphin/1728592>.
+   <https://gist.github.com/corydolphin/1728592>.
 
 3. Create a new GroupServer group to which you intend to import
    mbox archive(s) in to.
