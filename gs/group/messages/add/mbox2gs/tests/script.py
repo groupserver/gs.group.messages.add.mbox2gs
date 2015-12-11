@@ -15,6 +15,7 @@
 from __future__ import absolute_import, unicode_literals
 from mock import (MagicMock, patch)
 import os.path
+from pkg_resources import resource_filename
 from unittest import TestCase
 from gs.group.messages.add.mbox2gs.script import (main, process_message)
 import gs.group.messages.add.mbox2gs.script as gsscript
@@ -30,15 +31,18 @@ class TestScript(TestCase):
         gsscript.get_relay_address_prefix_from_config = MagicMock(
             return_value=self.prefix)
 
+    @staticmethod
+    def full_filename(filename):
+        n = os.path.join('tests', filename)
+        retval = resource_filename('gs.group.messages.add.mbox2gs', n)
+        return retval
+
     @patch.object(gsscript, 'get_args')
     @patch.object(gsscript, 'add_post_to_groupserver')
     def test_mbox_single(self, m_add_post, m_get_args):
         'Test an mbox with a single email message in the file'
-        mboxFilename = 'single.mbox'
         args = m_get_args()
-        args.file.name = os.path.join(
-            'gs', 'group', 'messages', 'add', 'mbox2gs', 'tests',
-            mboxFilename)
+        args.file.name = self.full_filename('single.mbox')
         args.verbose = False
 
         with self.assertRaises(SystemExit):
@@ -50,11 +54,8 @@ class TestScript(TestCase):
     @patch.object(gsscript, 'add_post_to_groupserver')
     def test_mbox_multiple(self, m_add_post, m_get_args):
         'Test an mbox with multiple email messages in the file'
-        mboxFilename = 'multiple.mbox'
         args = m_get_args()
-        args.file.name = os.path.join(
-            'gs', 'group', 'messages', 'add', 'mbox2gs', 'tests',
-            mboxFilename)
+        args.file.name = self.full_filename('multiple.mbox')
         args.verbose = False
 
         with self.assertRaises(SystemExit):
