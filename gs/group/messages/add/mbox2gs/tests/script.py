@@ -63,8 +63,9 @@ class TestScript(TestCase):
 
         self.assertEqual(2, m_add_post.call_count)
 
+    @patch('gs.group.messages.add.mbox2gs.script.sys.stderr')
     @patch.object(gsscript, 'add_post_to_groupserver')
-    def test_empty_message(self, m_add_post):
+    def test_empty_message(self, m_add_post, m_stderr):
         'Test that we do the right thing with an empty message'
         with self.assertRaises(SystemExit) as se:
             process_message('http://groups.example.com', 'list', '',
