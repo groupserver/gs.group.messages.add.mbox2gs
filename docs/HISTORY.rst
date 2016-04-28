@@ -34,7 +34,7 @@ Changelog
 
 
 .. _Read The Docs:
-   http://groupserver.readthedocs.org/projects/gsgroupmessagesaddmbox2gs/
+   http://groupserver.readthedocs.io/projects/gsgroupmessagesaddmbox2gs/
 .. _GitHub:
    https://github.com/groupserver/gs.group.messages.add.mbox2gs
 
