@@ -36,7 +36,7 @@ Resources
 - Code repository:
   https://github.com/groupserver/gs.group.messages.add.mbox2gs
 - Documentation
-  http://groupserver.readthedocs.org/projects/gsgroupmessagesaddmbox2gs/
+  http://groupserver.readthedocs.io/projects/gsgroupmessagesaddmbox2gs/
 - Questions and comments to
   http://groupserver.org/groups/development
 - Report bugs at https://redmine.iopen.net/projects/groupserver
